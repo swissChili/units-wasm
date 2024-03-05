@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+
+{
+  local $/=undef;
+  open FILE, $ARGV[0] or die "Could not open file";
+  $data = <FILE>;
+  close FILE;
+}
+
+$data =~ s/<.*?>//sg;
+$data =~ s/&.*?;//sg;
+print $data;
