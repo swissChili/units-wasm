@@ -1,11 +1,35 @@
 CFLAGS = -Os -DSUPPORT_UTF8 -sASYNCIFY -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,stringToNewUTF8 \
 	-sEXPORTED_FUNCTIONS=_test_int,_do_a_conversion -sMODULARIZE -s 'EXPORT_NAME="createMyModule"' \
-	--pre-js=module-pre.js
+	--no-entry
 
-units.wasm: *.c *.h
+ESFLAGS = --bundle --minify --loader:.js=jsx
+
+WEBCFLAGS = -Os -framework WebKit -std=c++11 
+
+webview-frontend: webview-frontend.cpp units.o getopt.o getopt1.o parse.tab.o strfunc.o
+	g++ $^ -o webview-frontend $(WEBCFLAGS) -I json/include
+
+webview-frontend.cpp: bundle-webview-js.h
+
+units.wasm: units.c
 	emcc -o units.lib.js *.c $(CFLAGS) --preload-file definitions.units --preload-file elements.units --preload-file currency.units --preload-file cpi.units
 
-units-host:
+units-host: units.c
 	gcc *.c -o units-host -g
 
-.PHONY: units.wasm units-host
+%.o: %.c
+	gcc -c $^ -Os -o $@
+
+bundle.js: frontend.js units.wasm
+	yarn esbuild frontend.js $(ESFLAGS) --outfile=bundle.js
+
+bundle-webview-js.h: bundle-webview.js
+	xxd -i $^ > $@
+
+bundle-webview.js: webview-frontend.js frontend-impl.js
+	yarn esbuild webview-frontend.js $(ESFLAGS) --outfile=bundle-webview.js
+
+watch:
+	yarn esbuild frontend.js $(ESFLAGS) --watch --outfile=bundle.js
+
+.PHONY: watch

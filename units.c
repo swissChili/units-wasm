@@ -28,8 +28,6 @@ GNU Units comes with ABSOLUTELY NO WARRANTY.\n\
 You may redistribute copies of GNU Units\n\
 under the terms of the GNU General Public License."
 
-#define _XOPEN_SOURCE 600
-
 #if defined (_WIN32) && defined (_MSC_VER)
 # include <windows.h>
 # include <winbase.h>
@@ -42,6 +40,7 @@ under the terms of the GNU General Public License."
 #include <ctype.h>
 #include <float.h>
 
+#include <string.h>
 #include <stdio.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -419,6 +418,9 @@ openfile(char *file,char *mode)
 }  
 
 
+char log_buffer[4096] = {0};
+char *log_buffer_ptr = log_buffer;
+
 
 void
 logprintf(const char *format, ...)
@@ -428,6 +430,11 @@ logprintf(const char *format, ...)
   va_start(args, format);
   vprintf(format, args);
   va_end(args);
+  
+  va_start(args, format);
+  log_buffer_ptr += vsnprintf(log_buffer_ptr, log_buffer + 4096 - log_buffer_ptr, format, args);
+  va_end(args);
+  
   if (logfile) {
     va_start(args, format);
     vfprintf(logfile, format, args);
@@ -439,6 +446,7 @@ void
 logputchar(char c)
 {
   putchar(c);
+  *(log_buffer_ptr++) = c;
   if (logfile) fputc(c, logfile);
 }
 
@@ -446,6 +454,7 @@ void
 logputs(const char *s)
 {
   fputs(s, stdout);
+  log_buffer_ptr += strlcpy(log_buffer_ptr, s, log_buffer + 4096 - log_buffer_ptr);
   if (logfile) fputs(s, logfile);
 }
     

@@ -1,3 +1,11 @@
-*.lib.*
+units.lib.wasm
+units.lib.data
+units.lib.js
 cmake-build-*
 .idea
+node_modules
+bundle-webview-js.h
+webview-frontend
+*.o
+bundle-*.js
+bundle.js

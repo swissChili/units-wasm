@@ -1,0 +1,26 @@
+{
+  "name": "units-wasm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:swissChili/units-wasm.git",
+  "author": "swissChili <swisschili@fastmail.com>",
+  "license": "GPL-3.0",
+  "private": true,
+  "dependencies": {
+    "preact": "^10.19.6",
+    "preact-dom": "^1.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "buffer": "^5.5.0||^6.0.0",
+    "crypto-browserify": "^3.12.0",
+    "esbuild": "^0.20.1",
+    "events": "^3.1.0",
+    "path-browserify": "^1.0.0",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "string_decoder": "^1.3.0",
+    "vm-browserify": "^1.1.2"
+  }
+}

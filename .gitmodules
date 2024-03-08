@@ -1,0 +1,6 @@
+[submodule "webview"]
+	path = webview
+	url = git@github.com:webview/webview.git
+[submodule "json"]
+	path = json
+	url = git@github.com:nlohmann/json.git
