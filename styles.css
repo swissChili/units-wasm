@@ -23,7 +23,7 @@ body {
 
 #app {
     display: grid;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content 1fr min-content;
     width: 100%;
     height: 100%;
 }
@@ -34,13 +34,20 @@ body {
 /*    border: 1px solid gray;*/
 }
 
+.bottom-menu {
+    font-size: 0.85rem!important;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 8px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
     background: white;
-    font-size: 0.85rem!important;
     table-layout: fixed;
+    font-size: 0.85rem!important;
 }
 td {
     padding: 2px 4px;

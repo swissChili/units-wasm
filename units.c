@@ -6340,8 +6340,6 @@ conversion_setup()
     if (setup)
         return;
 
-    setup = 1;
-
     flags.quiet = 1;       /* Do not supress prompting */
     flags.unitcheck = 0;   /* Unit checking is off */
     flags.verbose = 2;     /* Medium verbosity */
@@ -6400,7 +6398,7 @@ conversion_setup()
 
 
 void
-do_a_conversion(char *input, char *output)
+do_a_conversion(char *input, char *output, char *system)
 {
     char *inp, *out;
 
@@ -6421,6 +6419,9 @@ do_a_conversion(char *input, char *output)
     else
         setnumformat();
 
+    setenv("UNITS_SYSTEM", system, 1);
+    printf("units system %s\n", getenv("UNITS_SYSTEM"));
+
     conversion_worker(input, output);
 }
 
@@ -6428,9 +6429,9 @@ do_a_conversion(char *input, char *output)
 int test_main()
 {
     char a[] = "pi", b[] = "";
-    do_a_conversion(a, b);
-    do_a_conversion(a, b);
-    do_a_conversion(a, b);
+    do_a_conversion(a, b, "si");
+    do_a_conversion(a, b, "si");
+    do_a_conversion(a, b, "si");
 }
 
 

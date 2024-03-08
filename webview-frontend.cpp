@@ -7,7 +7,7 @@
 using json = nlohmann::json;
 
 extern "C" {
-    extern void do_a_conversion(char *, char *);
+    extern void do_a_conversion(char *, char *, char *);
 }
 
 extern char log_buffer[4096];
@@ -19,11 +19,12 @@ std::string convert(std::string arg) {
     json j = json::parse(arg);
     
     auto from = j[0].template get<std::string>(),
-        to = j[1].template get<std::string>();
+        to = j[1].template get<std::string>(),
+        system = j[2].template get<std::string>();
         
     std::cout << from << ' ' << to << std::endl;
     
-    do_a_conversion((char *)from.data(), to.size() > 0 ? (char *)to.data() : nullptr);
+    do_a_conversion((char *)from.data(), to.size() > 0 ? (char *)to.data() : nullptr, (char *)system.data());
     std::string res = json(std::string(log_buffer, log_buffer_ptr - log_buffer)).dump();
     log_buffer_ptr = log_buffer;
     std::cout << res << std::endl;
