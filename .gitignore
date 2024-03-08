@@ -9,3 +9,4 @@ webview-frontend
 *.o
 bundle-*.js
 bundle.js
+styles.css.txt

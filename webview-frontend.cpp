@@ -23,7 +23,7 @@ std::string convert(std::string arg) {
         
     std::cout << from << ' ' << to << std::endl;
     
-    do_a_conversion((char *)from.data(), (char *)to.data());
+    do_a_conversion((char *)from.data(), to.size() > 0 ? (char *)to.data() : nullptr);
     std::string res = json(std::string(log_buffer, log_buffer_ptr - log_buffer)).dump();
     log_buffer_ptr = log_buffer;
     std::cout << res << std::endl;

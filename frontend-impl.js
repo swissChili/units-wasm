@@ -13,12 +13,12 @@ export const UnitsApp = () => {
     setTo('');
     
     convert(query, to).then(res => {
-      setHist([...hist, query + " -> " + to + " " + res]);
+      setHist([...hist, [query, to, res]]);
     })
   }
 
   return (
-    <div>
+    <>
       <form class="query-row" onSubmit={doConversion}>
         <input
           type="text"
@@ -35,14 +35,20 @@ export const UnitsApp = () => {
           onChange={(val) => setTo(val.target.value)}
         ></input>
           
-        <input type="submit"></input>
+        <input value="Convert" type="submit"></input>
       </form>
 
-      <ul>
+          <div class="table-container">
+      <table>
+      <thead>
+      <tr><td style="width: 30%">From</td><td style="width: 15%">To</td><td style="width: 55%">Result</td></tr>
+      </thead>
         {hist.map((entry) => (
-          <li>{entry}</li>
+          <tr>{entry.map(t => <td>{t}</td>)}</tr>
         ))}
-      </ul>
-    </div>
+        <tr><td></td></tr>
+      </table>
+        </div>
+    </>
   );
 };

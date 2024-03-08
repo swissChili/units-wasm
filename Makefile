@@ -6,10 +6,8 @@ ESFLAGS = --bundle --minify --loader:.js=jsx
 
 WEBCFLAGS = -Os -framework WebKit -std=c++11 
 
-webview-frontend: webview-frontend.cpp units.o getopt.o getopt1.o parse.tab.o strfunc.o
+webview-frontend: webview-frontend.cpp units.o getopt.o getopt1.o parse.tab.o strfunc.o | bundle-webview-js.h
 	g++ $^ -o webview-frontend $(WEBCFLAGS) -I json/include
-
-webview-frontend.cpp: bundle-webview-js.h
 
 units.wasm: units.c
 	emcc -o units.lib.js *.c $(CFLAGS) --preload-file definitions.units --preload-file elements.units --preload-file currency.units --preload-file cpi.units
@@ -26,10 +24,11 @@ bundle.js: frontend.js units.wasm
 bundle-webview-js.h: bundle-webview.js
 	xxd -i $^ > $@
 
-bundle-webview.js: webview-frontend.js frontend-impl.js
+bundle-webview.js: webview-frontend.js frontend-impl.js styles.css
+	cp styles.css styles.css.txt
 	yarn esbuild webview-frontend.js $(ESFLAGS) --outfile=bundle-webview.js
 
 watch:
 	yarn esbuild frontend.js $(ESFLAGS) --watch --outfile=bundle.js
 
-.PHONY: watch
+.PHONY: watch webview-frontend
