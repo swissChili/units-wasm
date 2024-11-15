@@ -6250,7 +6250,7 @@ int test_int(int a, int b)
     return a + b;
 }
 
-char *g_argv_0 = NULL;
+char g_argv_0[128] = "./units";
 
 
 void conversion_setup();
@@ -6396,15 +6396,10 @@ conversion_setup()
     }
 }
 
-
 void
 do_a_conversion(char *input, char *output, char *system)
 {
     char *inp, *out;
-
-    char units[] = "./units";
-
-    g_argv_0 = units;
 
     checklocale();
 
@@ -6420,18 +6415,9 @@ do_a_conversion(char *input, char *output, char *system)
         setnumformat();
 
     setenv("UNITS_SYSTEM", system, 1);
-    printf("units system %s\n", getenv("UNITS_SYSTEM"));
+    // printf("units system %s\n", getenv("UNITS_SYSTEM"));
 
     conversion_worker(input, output);
-}
-
-
-int test_main()
-{
-    char a[] = "pi", b[] = "";
-    do_a_conversion(a, b, "si");
-    do_a_conversion(a, b, "si");
-    do_a_conversion(a, b, "si");
 }
 
 

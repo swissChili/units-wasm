@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>webview-frontend</string>
+	<key>CFBundleIconFile</key>
+	<string>Units</string>
+	<key>CFBundleIdentifier</key>
+	<string>sh.swisschili.units</string>
+	<key>CFBundleDisplayName</key>
+	<string>Units</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>CFBundleName</key>
+	<string>Units</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleSignature</key>
+	<string>Pde4</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© swissChili</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.14.6</string>
+	<key>LSUIElement</key>
+	<false/>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSSupportsAutomaticGraphicsSwitching</key>
+	<true/>
+	<key>IgnorePSN</key>
+	<false/>
+	<key>NSRequiresAquaSystemAppearance</key>
+	<false/>
+	<key>LSArchitecturePriority</key>
+	<array>
+		<string>aarch64</string>
+	</array>
+	<key>LSEnvironment</key>
+	<dict>
+		<key>LC_CTYPE</key>
+		<string>UTF-8</string>
+	</dict>
+</dict>
+</plist>

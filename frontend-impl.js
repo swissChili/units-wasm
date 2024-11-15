@@ -24,14 +24,20 @@ export const UnitsApp = () => {
     setTo('');
   }
 
+  function afterEquals(str) {
+    let parts = str.split('=');
+    return parts[parts.length - 1];
+  }
+
   return (
     <>
-      <form class="query-row" onSubmit={doConversion}>
+      <form class="query-row noselect" onSubmit={doConversion}>
         <input
           type="text"
           id="query"
           value={query}
           placeholder="From"
+          class="noselect"
           onChange={(val) => setQuery(val.target.value)}
         ></input>
         <input
@@ -39,6 +45,7 @@ export const UnitsApp = () => {
           id="to"
           value={to}
           placeholder="To"
+          class="noselect"
           onChange={(val) => setTo(val.target.value)}
         ></input>
 
@@ -46,18 +53,26 @@ export const UnitsApp = () => {
       </form>
 
       <div class="table-container">
-        <table>
-          <thead>
-            <tr><td style="width: 30%">From</td><td style="width: 15%">To</td><td style="width: 55%">Result</td></tr>
-          </thead>
+        <div class="table-title">
+          <span>Calculation</span>
+          <span>Result</span>
+        </div>
+        <div class="history">
           {hist.map((entry) => (
-            <tr>{entry.map(t => <td>{t}</td>)}</tr>
-          ))}
-          <tr><td></td></tr>
-        </table>
+              <div class="entry">
+                <span class="from">{entry[0]}</span>
+                { entry[1] !== "" ? <span class="to"> {entry[1]}</span> : <span />}
+                <span class="filler">
+                <span class="equals noselect">=</span>
+                <span class="res">{afterEquals(entry[2])}</span>
+                </span>
+              </div>
+            ))
+          }
+        </div>
       </div>
 
-      <div class="bottom-menu">
+      <div class="bottom-menu noselect">
         <span>
           Units: &nbsp;
           <select onChange={val => setUnitSystem(val.target.value)}>

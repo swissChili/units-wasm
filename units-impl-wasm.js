@@ -1,6 +1,12 @@
-const units = require("./units.js");
+const units = require("./units.lib.js");
 
-units().then((Module) => {
+globalThis.printBuffer = "";
+
+units({
+  "print": function(out) {
+    globalThis.printBuffer += out + "\n";
+  }
+}).then((Module) => {
   let _do_a_conversion = Module.cwrap("do_a_conversion", "number", [
     "number",
     "number",
