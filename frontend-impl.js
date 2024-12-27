@@ -1,5 +1,5 @@
 const React = require("preact");
-const { useState } = require('preact/hooks');
+const { useState, useEffect } = require('preact/hooks');
 
 export const UnitsApp = () => {
   const [hist, setHist] = useState([]);
@@ -7,22 +7,35 @@ export const UnitsApp = () => {
   const [to, setTo] = useState("");
   const [unitSystem, setUnitSystem] = useState('si');
 
-  function doConversion(e) {
+  function doConversion(e, q, t, convert) {
     e.preventDefault();
     console.log("conversion");
 
-    if (query == '')
+    if (q === '') {
+      console.log('empty query');
       return;
+    }
 
     console.log("units", unitSystem);
 
-    convert(query, to, unitSystem).then(res => {
-      setHist([...hist, [query, to, res]]);
+    convert(q, t, unitSystem).then(res => {
+      setHist([...hist, [q, t, res]]);
     });
 
     setQuery('');
     setTo('');
   }
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    if (q.get('from') !== null) {
+      window.convertPromise.then(convert => {
+        setQuery(q.get('from'));
+        setTo(q.get('to') || '');
+        doConversion({preventDefault: () => {}}, q.get('from'), q.get('to'), convert);
+      });
+    }
+  }, []);
 
   function afterEquals(str) {
     let parts = str.split('=');
@@ -31,7 +44,7 @@ export const UnitsApp = () => {
 
   return (
     <>
-      <form class="query-row noselect" onSubmit={doConversion}>
+      <form class="query-row noselect" onSubmit={e => doConversion(e, query, to, window.convert)}>
         <input
           type="text"
           id="query"
@@ -84,7 +97,7 @@ export const UnitsApp = () => {
           </select>
         </span>
 
-        <button onClick={() => setHist([])}>Clear</button>
+       	<button onClick={() => setHist([])}>Clear</button>
       </div>
 
     </>

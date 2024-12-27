@@ -22,7 +22,11 @@ app-bundle: webview-frontend
 menu.o: webview/menu.m
 	$(MC) $^ -c -o $@ -flto -Os
 
-units.wasm: units.c
+www: units.lib.wasm
+	mkdir -p www
+	cp index.html bundle.js units.lib.* www
+
+units.lib.wasm: units.c
 	emcc -o units.lib.js *.c $(CFLAGS) --preload-file definitions.units --preload-file elements.units --preload-file currency.units --preload-file cpi.units
 
 units-host: units.c
@@ -31,7 +35,7 @@ units-host: units.c
 %.o: %.c
 	$(CC) -c $^ -Os -o $@ -Os
 
-bundle.js: frontend.js units.wasm
+bundle.js: frontend.js units.lib.wasm
 	yarn esbuild frontend.js $(ESFLAGS) --outfile=bundle.js
 
 bundle-webview-js.h: bundle-webview.js
@@ -41,10 +45,10 @@ bundle-webview.js: webview-frontend.js frontend-impl.js styles.css
 	yarn esbuild styles.css --outfile=styles.css.txt --minify
 	yarn esbuild webview-frontend.js $(ESFLAGS) --outfile=bundle-webview.js
 
-watch: units.wasm
+watch: units.lib.wasm
 	yarn esbuild frontend.js $(ESFLAGS) --watch --outfile=bundle.js
 
 clean:
 	rm -f *.o webview-frontend *.wasm
 
-.PHONY: watch webview-frontend
+.PHONY: watch webview-frontend www
